@@ -1,0 +1,43 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+header {
+    background-color: #ffcc01;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+}
+header h1 {
+    margin: 0;
+}
+main {
+    padding: 20px;
+}
+.team-form, .team-list {
+    margin: 20px 0;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.team-form h2, .team-list h2 {
+    margin-top: 0;
+}
+.team-form input, .team-form button {
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    font-size: 16px;
+}
+.team-list ul {
+    list-style: none;
+    padding: 0;
+}
+.team-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}

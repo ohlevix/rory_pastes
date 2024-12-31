@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokepass - Armazene seus Times Pokémon</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://s10.aconvert.com/convert/p3r68-cdx67/a18zy-frezu-001.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        header {
+            background-color: rgba(74, 20, 140, 0.8);
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .header-img {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .menu-button {
+            background-color: #4a148c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            position: absolute;
+            right: 10px;
+            bottom: -40px;
+        }
+        .menu-button:hover {
+            background-color: #6a1b9a;
+        }
+        .login-form {
+            display: none;
+            background-color: rgba(169, 169, 169, 0.8);
+            padding: 10px;
+            position: absolute;
+            width: 220px;
+            top: 85px;
+            right: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 5;
+        }
+        .login-form input {
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+        }
+        .team-form {
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 15px;
+            margin-top: 50px;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            margin-left: auto;
+            margin-right: auto;
+            display: none;
+        }
+        .team-form input, .team-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        .team-form button {
+            background-color: #4a148c;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .team-form button:hover {
+            background-color: #6a1b9a;
+        }
+        .team-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .team-list li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            margin-bottom: 10px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+        }
+        .team-list li:hover {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        .copy-button {
+            background-color: #6a1b9a;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .copy-button:hover {
+            background-color: #4a148c;
+        }
+        .menu {
+            display: none;
+            position: absolute;
+            top: 100px;
+            right: 10px;
+            background-color: rgba(74, 20, 140, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+        .menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        .menu a:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .close-menu {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+        }
+        .deleteButton {
+            background-color: #6a1b9a;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            float: right;
+        }
+        .deleteButton:hover {
+            background-color: #4a148c;
+        }
+        .deleteButton {
+            margin-left: 10px;
+        }
+        .delete-form {
+            display: none;
+            background-color: rgba(169, 169, 169, 0.8);
+            padding: 10px;
+            position: absolute;
+            width: 220px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 6;
+        }
+        .delete-form input {
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+        }
+        .delete-form button {
+            background-color: #4a148c;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .close-x {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Times da Rory</h1>
+        <p>Aqui estão todos meus times pokemons, espero que goste! 😘</p>
+        <a href="https://discord.com/oauth2/authorize?client_id=1320489107851313163" target="_blank">
+            <img src="https://s11.aconvert.com/convert/p3r68-cdx67/pyf5i-omhx1.jpg" alt="Discord" class="header-img">
+        </a>
+        <button class="menu-button" id="menuButton">Menu</button>
+    </header>
+    <main>
+        <section class="login-form" id="loginForm">
+            <span class="close-x" id="closeLoginForm">X</span>
+            <h2>Insira a Senha</h2>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button id="loginButton">Entrar</button>
+        </section>
+        <section class="team-form" id="teamFormSection">
+            <span class="close-x" id="closeTeamForm">X</span>
+            <h2>Cadastre um Novo Time</h2>
+            <form id="teamForm">
+                <label for="teamName">Nome do Time:</label>
+                <input type="text" id="teamName" placeholder="Nome do time" required>
+                <label for="pokepassLink">Link da Pokepass:</label>
+                <input type="url" id="pokepassLink" placeholder="Cole o link da Pokepass" required>
+                <label for="teamDescription">Descrição do Time:</label>
+                <textarea id="teamDescription" rows="4" placeholder="Adicione uma descrição ao seu time"></textarea>
+                <button type="submit">Cadastrar Time</button>
+            </form>
+        </section>
+    </main>
+    <section class="team-list">
+        <h2>Times Cadastrados</h2>
+        <ul id="teamList">
+            <li>Nenhum time cadastrado ainda.</li>
+        </ul>
+    </section>
+
+    <div class="menu" id="menu">
+        <span class="close-menu" id="closeMenu">X</span>
+        <a href="#" id="menuCadastrar">Cadastrar Time</a>
+        <a href="https://discord.com/oauth2/authorize?client_id=1320489107851313163" target="_blank">Minha Casa</a>
+    </div>
+
+    <div class="delete-form" id="deleteForm">
+        <span class="close-x" id="closeDeleteForm">X</span>
+        <h2>Digite a Senha para Deletar</h2>
+        <input type="password" id="deletePassword" placeholder="Senha">
+        <button id="deleteButton">Deletar Time</button>
+    </div>
+
+    <script>
+        const menuButton = document.getElementById('menuButton');
+        const loginForm = document.getElementById('loginForm');
+        const teamFormSection = document.getElementById('teamFormSection');
+        const loginButton = document.getElementById('loginButton');
+        const teamForm = document.getElementById('teamForm');
+        const teamList = document.getElementById('teamList');
+        const passwordInput = document.getElementById('password');
+        const teamNameInput = document.getElementById('teamName');
+        const pokepassLinkInput = document.getElementById('pokepassLink');
+        const teamDescriptionInput = document.getElementById('teamDescription');
+        const menu = document.getElementById('menu');
+        const menuCadastrar = document.getElementById('menuCadastrar');
+        const closeMenu = document.getElementById('closeMenu');
+        const closeLoginForm = document.getElementById('closeLoginForm');
+        const closeTeamForm = document.getElementById('closeTeamForm');
+        const closeDeleteForm = document.getElementById('closeDeleteForm');
+        const deleteForm = document.getElementById('deleteForm');
+        const deletePasswordInput = document.getElementById('deletePassword');
+        const deleteButton = document.getElementById('deleteButton');
+
+        // Função para carregar os times armazenados
+        function loadTeams() {
+            const storedTeams = JSON.parse(localStorage.getItem('teams')) || [];
+            teamList.innerHTML = ''; // Limpa a lista de times
+            if (storedTeams.length > 0) {
+                storedTeams.forEach((team, index) => {
+                    const teamItem = document.createElement('li');
+                    teamItem.innerHTML = `
+                        <strong>${team.name}</strong> <br>
+                        <a href="${team.link}" target="_blank">Link para Pokepass</a>
+                        <p>${team.description}</p>
+                        <button class="deleteButton" data-index="${index}">Deletar</button>
+                    `;
+                    teamList.appendChild(teamItem);
+                });
+            } else {
+                teamList.innerHTML = '<li>Nenhum time cadastrado ainda.</li>';
+            }
+        }
+
+        // Função para salvar os times no localStorage
+        function saveTeams(teams) {
+            localStorage.setItem('teams', JSON.stringify(teams));
+        }
+
+        // Função para fechar o menu
+        function closeMenuFunction() {
+            menu.style.display = 'none';
+        }
+
+        menuButton.addEventListener('click', () => {
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        closeMenu.addEventListener('click', closeMenuFunction);
+
+        window.addEventListener('click', (event) => {
+            if (!menu.contains(event.target) && event.target !== menuButton) {
+                closeMenuFunction();
+            }
+        });
+
+        menuCadastrar.addEventListener('click', () => {
+            menu.style.display = 'none';
+            loginForm.style.display = 'block'; // Exibe o login para cadastrar time
+        });
+
+        closeLoginForm.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+        });
+
+        closeTeamForm.addEventListener('click', () => {
+            teamFormSection.style.display = 'none';
+        });
+
+        closeDeleteForm.addEventListener('click', () => {
+            deleteForm.style.display = 'none';
+        });
+
+        loginButton.addEventListener('click', () => {
+            const password = passwordInput.value;
+            if (password === '2415') {
+                loginForm.style.display = 'none';
+                teamFormSection.style.display = 'block';
+            } else {
+                alert('Senha incorreta!');
+            }
+        });
+
+        teamForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const password = passwordInput.value;
+
+            if (password === '2415') {
+                const teamName = teamNameInput.value;
+                const pokepassLink = pokepassLinkInput.value;
+                const teamDescription = teamDescriptionInput.value;
+
+                const newTeam = {
+                    name: teamName,
+                    link: pokepassLink,
+                    description: teamDescription
+                };
+
+                // Carregar times existentes
+                const storedTeams = JSON.parse(localStorage.getItem('teams')) || [];
+                storedTeams.push(newTeam);
+                saveTeams(storedTeams);
+
+                teamForm.reset();
+                teamFormSection.style.display = 'none'; // Fecha a seção de cadastro
+                loadTeams(); // Atualiza a lista de times
+                menu.style.display = 'none'; // Fecha o menu
+            } else {
+                alert('Senha incorreta!');
+            }
+        });
+
+        // Deletar time
+        document.addEventListener('click', (event) => {
+            if (event.target.classList.contains('deleteButton')) {
+                const index = event.target.dataset.index;
+                deleteForm.style.display = 'block';
+                deleteButton.addEventListener('click', () => {
+                    const password = deletePasswordInput.value;
+                    if (password === '2415') {
+                        const storedTeams = JSON.parse(localStorage.getItem('teams')) || [];
+                        storedTeams.splice(index, 1);
+                        saveTeams(storedTeams);
+                        loadTeams();
+                        deleteForm.style.display = 'none';
+                    } else {
+                        alert('Senha incorreta!');
+                    }
+                });
+            }
+        });
+
+        // Inicializa a página
+        loadTeams();
+    </script>
+</body>
+</html>
